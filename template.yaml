@@ -26,7 +26,19 @@ Resources:
           IN_FILE: input.xml
           OUT_FILE: output.xml
       Handler: app.lambda_handler
-      Policies: arn:aws:iam::aws:policy/AmazonS3FullAccess
+      Policies:
+        - Version: '2012-10-17' 
+          Statement:
+            - Effect: Allow
+              Action:
+                - s3:GetObject
+              Resource: !Join ['', [!GetAtt InBucket.Arn, '/*']]
+        - Version: '2012-10-17' 
+          Statement:
+            - Effect: Allow
+              Action:
+                - s3:PutObject
+              Resource: !Join ['', [!GetAtt OutBucket.Arn, '/*']]
       Runtime: python3.9
       Architectures:
         - x86_64
