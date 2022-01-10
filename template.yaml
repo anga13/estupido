@@ -19,7 +19,14 @@ Resources:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
       CodeUri: ingestor/
+      Environment:
+        Variables:
+          IN_BUCKET: !Ref InBucket
+          OUT_BUCKET: !Ref OutBucket
+          IN_FILE: input.xml
+          OUT_FILE: output.xml
       Handler: app.lambda_handler
+      Policies: arn:aws:iam::aws:policy/AmazonS3FullAccess
       Runtime: python3.9
       Architectures:
         - x86_64

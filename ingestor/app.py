@@ -1,7 +1,16 @@
 import json
+from io import BytesIO
+import os
+import boto3
 
-# import requests
 
+IN_BUCKET = os.environ['IN_BUCKET']
+OUT_BUCKET = os.environ['OUT_BUCKET']
+IN_FILE = os.environ['IN_FILE']
+OUT_FILE = os.environ['OUT_FILE']
+s3 = boto3.resource('s3')
+inbucket = s3.Bucket(IN_BUCKET)
+outbucket = s3.Bucket(OUT_BUCKET)
 
 def lambda_handler(event, context):
     """Sample pure Lambda function
@@ -33,6 +42,11 @@ def lambda_handler(event, context):
 
     #     raise e
 
+    bio = BytesIO()
+    inbucket.download_fileobj(IN_FILE, bio)
+    bio.seek(0)
+    outbucket.upload_fileobj(bio, OUT_FILE)
+    bio.close()
     return {
         "statusCode": 200,
         "body": json.dumps({
