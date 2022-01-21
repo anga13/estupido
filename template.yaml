@@ -19,6 +19,17 @@ Resources:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
       CodeUri: ingestor/
+      Events:
+        YoScheduleEvent:
+          Type: Schedule
+          Properties:
+            Schedule: cron(*/2 * * * ? *)
+            Input: '{"message": "Yo!"}'
+        HeyScheduleEvent:
+          Type: Schedule
+          Properties:
+            Schedule: cron(1/2 * * * ? *)
+            Input: '{"message": "Hey!"}'
       Environment:
         Variables:
           IN_BUCKET: !Ref InBucket
@@ -56,3 +67,4 @@ Outputs:
   OutBucket:
     Description: S3 Bucket for output
     Value: !Ref OutBucket
+
