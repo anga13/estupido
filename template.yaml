@@ -29,7 +29,7 @@ Resources:
           Type: Schedule
           Properties:
             Schedule: cron(1/2 * * * ? *)
-            Input: '{"message": "Hey!"}'
+            Input: '{"message": "Heeey Duude!"}'
       Environment:
         Variables:
           IN_BUCKET: !Ref InBucket
